@@ -17,6 +17,9 @@ import java.util.List;
 public class User {
 
     @Id
+    @Column(name = "id", nullable = false)
+    private long id;
+
     @Column(name = "username", nullable = false)
     @Setter
     private String username;

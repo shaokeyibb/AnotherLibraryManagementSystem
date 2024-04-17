@@ -1,9 +1,33 @@
 package io.hikarilan.anotherlibrarymanagementsystem.app.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.hikarilan.anotherlibrarymanagementsystem.app.data.vo.BookVo;
+import io.hikarilan.anotherlibrarymanagementsystem.app.service.BookService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/book")
 public class BookController {
+
+    private final BookService bookService;
+
+    @GetMapping("/{isbnNumber}")
+    public ResponseEntity<BookVo> getBook(@PathVariable long isbnNumber) {
+        var book = bookService.getBook(isbnNumber);
+
+        return ResponseEntity.of(book.map(BookVo::fromEntity));
+    }
+
+    @GetMapping
+    public List<BookVo> getBooks(@RequestParam(required = false, defaultValue = "0") int page,
+                                 @RequestParam(required = false, defaultValue = "" + Integer.MAX_VALUE) int size) {
+        var books = bookService.getBooks(page, size);
+
+        return books.stream().map(BookVo::fromEntity).toList();
+    }
+
 }

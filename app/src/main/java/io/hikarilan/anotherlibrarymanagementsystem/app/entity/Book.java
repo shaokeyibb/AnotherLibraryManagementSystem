@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(indexes = {
+        @Index(name = "idx_book_isbn_number", columnList = "isbn_number"),
         @Index(name = "idx_book_title", columnList = "title"),
         @Index(name = "idx_book_author", columnList = "author"),
         @Index(name = "idx_book_publisher", columnList = "publisher")
@@ -20,7 +21,10 @@ public class Book {
 
     @Id
     @Column(name = "id", nullable = false)
-    private Long isbnNumber;
+    private long id;
+
+    @Column(name = "isbn_number", nullable = false)
+    private long isbnNumber;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -32,7 +36,7 @@ public class Book {
     private String publisher;
 
     @Column(name = "number_of_copies", nullable = false)
-    private Integer numberOfCopies = 0;
+    private int numberOfCopies = 0;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<BorrowRecord> borrowRecords;
