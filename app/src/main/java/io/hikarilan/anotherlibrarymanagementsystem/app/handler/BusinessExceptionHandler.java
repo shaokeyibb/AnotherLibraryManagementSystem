@@ -1,5 +1,7 @@
 package io.hikarilan.anotherlibrarymanagementsystem.app.handler;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotRoleException;
 import io.hikarilan.anotherlibrarymanagementsystem.app.data.vo.Error;
 import io.hikarilan.anotherlibrarymanagementsystem.app.exception.InvalidUsernameOrPasswordException;
 import io.hikarilan.anotherlibrarymanagementsystem.app.exception.UserAlreadyExistsException;
@@ -25,6 +27,16 @@ public class BusinessExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Error> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
+    }
+
+    @ExceptionHandler(NotLoginException.class)
+    public ResponseEntity<Error> handleNotLoginException(NotLoginException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Error(e.getMessage()));
+    }
+
+    @ExceptionHandler(NotRoleException.class)
+    public ResponseEntity<Error> handleNotRoleException(NotRoleException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new Error(e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

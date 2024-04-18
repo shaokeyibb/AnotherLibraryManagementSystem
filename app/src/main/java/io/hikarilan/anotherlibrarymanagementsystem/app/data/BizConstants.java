@@ -6,4 +6,6 @@ public class BizConstants {
 
     public final static String USER_ALREADY_EXISTS = "User already exists.";
 
+    public final static String USER_NOT_EXISTS = "User not exists.";
+
 }

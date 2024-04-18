@@ -1,5 +1,7 @@
 package io.hikarilan.anotherlibrarymanagementsystem.app.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import io.hikarilan.anotherlibrarymanagementsystem.app.data.dto.ChangePasswordRequest;
 import io.hikarilan.anotherlibrarymanagementsystem.app.data.dto.SignInRequest;
 import io.hikarilan.anotherlibrarymanagementsystem.app.data.dto.SignUpRequest;
 import io.hikarilan.anotherlibrarymanagementsystem.app.service.BasicAuthorizationService;
@@ -27,9 +29,16 @@ public class BasicAuthorizationController {
         basicAuthorizationService.signUp(request.username(), request.password());
     }
 
+    @SaCheckLogin
     @PostMapping("/sign-out")
     public void signOut() {
         basicAuthorizationService.signOut();
+    }
+
+    @SaCheckLogin
+    @PostMapping("/change-password")
+    public void changePassword(@Validated @RequestBody ChangePasswordRequest request) {
+        basicAuthorizationService.changePassword(request.password());
     }
 
 }

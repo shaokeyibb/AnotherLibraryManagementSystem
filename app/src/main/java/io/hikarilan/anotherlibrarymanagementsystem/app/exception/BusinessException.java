@@ -1,8 +1,9 @@
 package io.hikarilan.anotherlibrarymanagementsystem.app.exception;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {

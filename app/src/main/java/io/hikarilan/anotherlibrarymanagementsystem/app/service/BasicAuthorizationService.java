@@ -2,10 +2,9 @@ package io.hikarilan.anotherlibrarymanagementsystem.app.service;
 
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
-import io.hikarilan.anotherlibrarymanagementsystem.app.entity.User;
 import io.hikarilan.anotherlibrarymanagementsystem.app.exception.InvalidUsernameOrPasswordException;
 import io.hikarilan.anotherlibrarymanagementsystem.app.exception.UserAlreadyExistsException;
-import io.hikarilan.anotherlibrarymanagementsystem.app.repository.UserRepository;
+import io.hikarilan.anotherlibrarymanagementsystem.app.exception.UserNotExistsException;
 import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,10 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class BasicAuthorizationService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public void signIn(@Nonnull String username, @Nonnull String password) {
-        var user = userRepository.findByUsername(username)
+        var user = userService.getUser(username)
                 .filter(it -> BCrypt.checkpw(password, it.getPassword()))
                 .orElseThrow(InvalidUsernameOrPasswordException::new);
 
@@ -25,20 +24,30 @@ public class BasicAuthorizationService {
     }
 
     public void signUp(@Nonnull String username, @Nonnull String password) {
-        userRepository.findByUsername(username).ifPresent(it -> {
+        userService.getUser(username).ifPresent(it -> {
             throw new UserAlreadyExistsException();
         });
 
-        var user = userRepository.save(User.builder()
-                .username(username)
-                .password(BCrypt.hashpw(password))
-                .build());
+        var user = userService.createUser(username, BCrypt.hashpw(password));
 
         StpUtil.login(user.getId());
     }
 
     public void signOut() {
         StpUtil.logout();
+    }
+
+    public void changePassword(@Nonnull String password) {
+        var userId = StpUtil.getLoginIdAsLong();
+        var user = userService.getUser(userId);
+
+        if (user.isEmpty()) {
+            throw new UserNotExistsException();
+        }
+
+        userService.updateUser(user.get().toBuilder()
+                .password(BCrypt.hashpw(password))
+                .build());
     }
 
 }
