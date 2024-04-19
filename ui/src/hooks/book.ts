@@ -2,18 +2,20 @@ import {useFetch} from "./fetch.ts"
 import {Book} from "../data";
 
 export default function useBook() {
+    const fetch = useFetch()
+
     async function getBook(isbnNumber: string) {
-        return useFetch<Book>(`/book/${isbnNumber}`, {
-            method: "GET",
-        }).json();
+        const req = fetch(`/book/${isbnNumber}`, {}, {immediate: false}).get().json<Book>()
+        await req.execute(true)
+        return req;
     }
 
     async function getBooks({page: pPage, size: pSize}: { page?: number, size?: number }) {
         const page = pPage ?? 0;
         const size = pSize ?? 0x7fffffff;
-        return useFetch<Book[]>(`/book?page=${page}&size=${size}`, {
-            method: "GET",
-        }).json();
+        const req = fetch(`/book?page=${page}&size=${size}`, {}, {immediate: false}).get().json<Book[]>()
+        await req.execute(true)
+        return req;
     }
 
     return {

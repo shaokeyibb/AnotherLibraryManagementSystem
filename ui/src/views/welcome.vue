@@ -1,10 +1,22 @@
 <script setup lang="ts">
+
+import {useUsersStore} from "../stores/users.ts";
+
+const router = useRouter()
+const user = useUsersStore();
+
 const FormType = {
   SIGN_IN: {
-    name: "登录"
+    name: "登录",
+    handler: async function (values: Record<string, any>) {
+      await user.signIn(values["username"], values["password"])
+    }
   },
   SIGN_UP: {
-    name: "注册"
+    name: "注册",
+    handler: async function (values: Record<string, any>) {
+      await user.signUp(values["username"], values["password"])
+    }
   }
 }
 const formModel = reactive({
@@ -28,9 +40,25 @@ const formRules = {
 
 const requesting = ref(false)
 
-function handleFormSubmit(values: Record<string, any>, evt: SubmitEvent) {
+async function handleFormSubmit(values: Record<string, any>, _ev: Event) {
+  const evt = _ev as SubmitEvent
   const submitType = evt.submitter?.dataset["submitType"]
+  if (!submitType) return
+  try {
+    requesting.value = true
+    await FormType[submitType as keyof typeof FormType].handler(values)
+    await router.push({path: "/dashboard"})
+  } finally {
+    requesting.value = false
+  }
 }
+
+// 如果用户已登录，跳转到控制台
+user.updateUser().then(() => {
+  if (user.data) {
+    router.push({path: "/dashboard"})
+  }
+})
 </script>
 
 <template>
@@ -49,7 +77,7 @@ function handleFormSubmit(values: Record<string, any>, evt: SubmitEvent) {
         </a-form-item>
         <a-form-item>
           <a-space>
-            <a-button html-type="submit" data-submit-type="SIGN_IN">{{ FormType.SIGN_IN.name }}</a-button>
+            <a-button type="primary" html-type="submit" data-submit-type="SIGN_IN">{{ FormType.SIGN_IN.name }}</a-button>
             <a-button html-type="submit" data-submit-type="SIGN_UP">{{ FormType.SIGN_UP.name }}</a-button>
           </a-space>
         </a-form-item>

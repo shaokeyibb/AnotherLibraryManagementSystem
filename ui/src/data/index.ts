@@ -17,3 +17,8 @@ export enum Role {
     USER = "USER",
     GUEST = "GUEST"
 }
+
+export type Error = {
+    type: string,
+    message: string
+}
