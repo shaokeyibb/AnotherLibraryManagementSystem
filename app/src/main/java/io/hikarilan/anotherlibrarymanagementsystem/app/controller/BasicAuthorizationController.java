@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import io.hikarilan.anotherlibrarymanagementsystem.app.data.dto.ChangePasswordRequest;
 import io.hikarilan.anotherlibrarymanagementsystem.app.data.dto.SignInRequest;
 import io.hikarilan.anotherlibrarymanagementsystem.app.data.dto.SignUpRequest;
+import io.hikarilan.anotherlibrarymanagementsystem.app.data.vo.UserVo;
 import io.hikarilan.anotherlibrarymanagementsystem.app.service.BasicAuthorizationService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -20,13 +21,13 @@ public class BasicAuthorizationController {
     private final BasicAuthorizationService basicAuthorizationService;
 
     @PostMapping("/sign-in")
-    public void signIn(@Validated @RequestBody SignInRequest request) {
-        basicAuthorizationService.signIn(request.username(), request.password());
+    public UserVo signIn(@Validated @RequestBody SignInRequest request) {
+        return UserVo.fromEntity(basicAuthorizationService.signIn(request.username(), request.password()));
     }
 
     @PostMapping("/sign-up")
-    public void signUp(@Validated @RequestBody SignUpRequest request) {
-        basicAuthorizationService.signUp(request.username(), request.password());
+    public UserVo signUp(@Validated @RequestBody SignUpRequest request) {
+        return UserVo.fromEntity(basicAuthorizationService.signUp(request.username(), request.password()));
     }
 
     @SaCheckLogin
