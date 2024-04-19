@@ -35,6 +35,7 @@ public class Book {
     @Column(name = "publisher")
     private String publisher;
 
+    @Builder.Default
     @Column(name = "number_of_copies", nullable = false)
     private int numberOfCopies = 0;
 
