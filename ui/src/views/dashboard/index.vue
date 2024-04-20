@@ -2,17 +2,32 @@
 import {
   IconCaretRight,
   IconCaretLeft,
-  IconUser
+  IconUser,
+  IconApps
 } from '@arco-design/web-vue/es/icon';
+import routed_breadcrumb from '../../components/routed_breadcrumb.vue';
 import {useUsersStore} from "../../stores/users.ts";
 import {useRouter} from "vue-router";
 
+const route = useRoute()
 const router = useRouter()
 const user = useUsersStore()
 
 async function signOut() {
   await user.signOut()
-  await router.push("/")
+  await router.push({name: "Welcome"})
+}
+
+const menus = computed(() => router.getRoutes().find(r => r.name == "Dashboard")!.children)
+
+const selectedMenuKey = computed(() => [route.name as string])
+
+function onClickMenuItem(key: string) {
+  router.push({name: key})
+}
+
+if (route.name == "Dashboard") {
+  router.push({name: "Read"})
 }
 </script>
 
@@ -38,7 +53,14 @@ async function signOut() {
     </a-layout-header>
     <a-layout>
       <a-layout-sider collapsible breakpoint="xl">
-        <a-menu :style="{ width: '100%'}"></a-menu>
+        <a-menu :style="{ width: '100%'}" :selected-keys="selectedMenuKey" @menu-item-click="onClickMenuItem">
+          <a-menu-item v-for="menu in menus" :key="menu.name">
+            {{ menu.meta?.displayName ?? menu.path }}
+            <template #icon>
+              <IconApps/>
+            </template>
+          </a-menu-item>
+        </a-menu>
         <template #trigger="{ collapsed }">
           <IconCaretRight v-if="collapsed"></IconCaretRight>
           <IconCaretLeft v-else></IconCaretLeft>
@@ -46,11 +68,7 @@ async function signOut() {
       </a-layout-sider>
       <a-layout-content>
         <div class="flex flex-col w-full h-full p-3 lg:px-10 lg:pb-10" style="background: var(--color-fill-2)">
-          <a-breadcrumb class="m-4">
-            <a-breadcrumb-item>Home</a-breadcrumb-item>
-            <a-breadcrumb-item>Channel</a-breadcrumb-item>
-            <a-breadcrumb-item>News</a-breadcrumb-item>
-          </a-breadcrumb>
+          <routed_breadcrumb/>
           <main class="p-3 flex-1" style="background: var(--color-bg-1)">
             <router-view/>
           </main>

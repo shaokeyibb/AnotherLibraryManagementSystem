@@ -47,7 +47,7 @@ async function handleFormSubmit(values: Record<string, any>, _ev: Event) {
   try {
     requesting.value = true
     await FormType[submitType as keyof typeof FormType].handler(values)
-    await router.push({path: "/dashboard"})
+    await router.push({name: "Dashboard"})
   } finally {
     requesting.value = false
   }
@@ -56,7 +56,7 @@ async function handleFormSubmit(values: Record<string, any>, _ev: Event) {
 // 如果用户已登录，跳转到控制台
 user.updateUser().then(() => {
   if (user.data) {
-    router.push({path: "/dashboard"})
+    router.push({name: "Dashboard"})
   }
 })
 </script>
@@ -77,7 +77,10 @@ user.updateUser().then(() => {
         </a-form-item>
         <a-form-item>
           <a-space>
-            <a-button type="primary" html-type="submit" data-submit-type="SIGN_IN">{{ FormType.SIGN_IN.name }}</a-button>
+            <a-button type="primary" html-type="submit" data-submit-type="SIGN_IN">{{
+                FormType.SIGN_IN.name
+              }}
+            </a-button>
             <a-button html-type="submit" data-submit-type="SIGN_UP">{{ FormType.SIGN_UP.name }}</a-button>
           </a-space>
         </a-form-item>

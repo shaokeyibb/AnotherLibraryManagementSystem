@@ -12,7 +12,7 @@ export function useFetch() {
                 // 用户未登录
                 if (response && response.status == 401 && !new URL(response.url).pathname.startsWith("/api/authorization")) {
                     Message.error("登录状态失效，请重新登录")
-                    await router.push({path: "/"})
+                    await router.push({name: "Welcome"})
                 }
                 return {error, data}
             },
