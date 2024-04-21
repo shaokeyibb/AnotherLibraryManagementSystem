@@ -7,7 +7,7 @@ import {
 } from '@arco-design/web-vue/es/icon';
 import routed_breadcrumb from '../../components/routed_breadcrumb.vue';
 import {useUsersStore} from "../../stores/users.ts";
-import {useRouter} from "vue-router";
+import {RouteLocationNormalized, useRouter} from "vue-router";
 
 const route = useRoute()
 const router = useRouter()
@@ -31,6 +31,14 @@ router.beforeEach(async (to) => {
     return {name: "Read"}
   }
 })
+
+async function defaultToRead(route: RouteLocationNormalized) {
+  if (route.name == "Dashboard") {
+    await router.push({name: "Read"})
+  }
+}
+
+defaultToRead(route)
 </script>
 
 <template>
@@ -56,7 +64,8 @@ router.beforeEach(async (to) => {
     <a-layout>
       <a-layout-sider collapsible breakpoint="xl">
         <a-menu :style="{ width: '100%'}" :selected-keys="selectedMenuKey" @menu-item-click="onClickMenuItem">
-          <a-menu-item v-for="menu in menus" :key="menu.name" v-show="menu.meta?.role == null || menu.meta.role == user.data?.role as string | undefined">
+          <a-menu-item v-for="menu in menus" :key="menu.name"
+                       v-show="menu.meta?.role == null || menu.meta.role == user.data?.role as string | undefined">
             {{ menu.meta?.displayName ?? menu.path }}
             <template #icon>
               <IconApps/>
