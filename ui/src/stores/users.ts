@@ -11,8 +11,8 @@ export const useUsersStore = defineStore('user', () => {
             data.value = (await useBasicAuth()._signIn(username, password)).data.value
         } catch (_e: any) {
             const e = _e as Error
-            switch (e.message) {
-                case "Unauthorized": {
+            switch (e.code) {
+                case 401: {
                     Message.error("用户名或密码错误")
                     break
                 }
@@ -30,8 +30,8 @@ export const useUsersStore = defineStore('user', () => {
             data.value = (await useBasicAuth()._signUp(username, password)).data.value
         } catch (_e: any) {
             const e = _e as Error
-            switch (e.message) {
-                case "Conflict": {
+            switch (e.code) {
+                case 409: {
                     Message.error("用户名已存在，请更换一个")
                     break
                 }

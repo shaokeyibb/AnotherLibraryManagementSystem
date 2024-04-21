@@ -15,9 +15,9 @@ public class BookController {
 
     private final BookService bookService;
 
-    @GetMapping("/{isbnNumber}")
-    public ResponseEntity<BookVo> getBook(@PathVariable long isbnNumber) {
-        var book = bookService.getBook(isbnNumber);
+    @GetMapping("/{bookId}")
+    public ResponseEntity<BookVo> getBook(@PathVariable long bookId) {
+        var book = bookService.getBook(bookId);
 
         return ResponseEntity.of(book.map(BookVo::fromEntity));
     }

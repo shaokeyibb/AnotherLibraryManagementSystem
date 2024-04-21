@@ -26,9 +26,11 @@ function onClickMenuItem(key: string) {
   router.push({name: key})
 }
 
-if (route.name == "Dashboard") {
-  router.push({name: "Read"})
-}
+router.beforeEach(async (to) => {
+  if (to.name == "Dashboard") {
+    return {name: "Read"}
+  }
+})
 </script>
 
 <template>
@@ -54,7 +56,7 @@ if (route.name == "Dashboard") {
     <a-layout>
       <a-layout-sider collapsible breakpoint="xl">
         <a-menu :style="{ width: '100%'}" :selected-keys="selectedMenuKey" @menu-item-click="onClickMenuItem">
-          <a-menu-item v-for="menu in menus" :key="menu.name">
+          <a-menu-item v-for="menu in menus" :key="menu.name" v-show="menu.meta?.role == null || menu.meta.role == user.data?.role as string | undefined">
             {{ menu.meta?.displayName ?? menu.path }}
             <template #icon>
               <IconApps/>

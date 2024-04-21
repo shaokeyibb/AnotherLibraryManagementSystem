@@ -40,6 +40,6 @@ public class Book {
     @Column(name = "number_of_copies", nullable = false)
     private int numberOfCopies = 0;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<BorrowRecord> borrowRecords;
 }

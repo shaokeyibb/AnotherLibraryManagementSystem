@@ -1,5 +1,14 @@
 import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
 
+import 'vue-router'
+
+declare module 'vue-router' {
+    interface RouteMeta {
+        displayName: string,
+        role?: string
+    }
+}
+
 const routes: Readonly<RouteRecordRaw[]> = [
     {
         name: "Welcome",
@@ -13,12 +22,37 @@ const routes: Readonly<RouteRecordRaw[]> = [
         children: [
             {
                 name: "Read",
-                path: "",
+                path: "read",
                 component: () => import("../views/dashboard/read.vue"),
                 meta: {
                     displayName: "书籍检索"
                 }
-            }
+            },
+            {
+                name: "Borrow",
+                path: "borrow-management",
+                component: () => import("../views/dashboard/borrow.vue"),
+                meta: {
+                    displayName: "我的借阅"
+                }
+            },
+            {
+                name: "Account",
+                path: "account-management",
+                component: () => import("../views/dashboard/account.vue"),
+                meta: {
+                    displayName: "账号管理"
+                }
+            },
+            {
+                name: "System",
+                path: "system-management",
+                component: () => import("../views/dashboard/system.vue"),
+                meta: {
+                    displayName: "系统管理",
+                    role: "ADMIN"
+                }
+            },
         ],
         meta: {
             displayName: "仪表盘"

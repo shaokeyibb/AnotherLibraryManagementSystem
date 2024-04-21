@@ -15,8 +15,8 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public Optional<Book> getBook(long isbnNumber) {
-        return bookRepository.findByIsbnNumber(isbnNumber);
+    public Optional<Book> getBook(long id) {
+        return bookRepository.findById(id);
     }
 
     public List<Book> getBooks(int page, int size) {

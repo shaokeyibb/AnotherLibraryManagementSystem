@@ -5,45 +5,45 @@ export default function useBasicAuth() {
     const fetch = useFetch()
 
     async function _signIn(username: string, password: string) {
-        const req = fetch("/authorization/sign-in", {
+        const req = await fetch("/authorization/sign-in", {
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({username, password})
-        }, {immediate: false}).post().json<User>()
-        await req.execute(true)
+        }).post().json<User>()
+        if (req.error.value) throw req.error.value
         return req;
     }
 
     async function _signUp(username: string, password: string) {
-        const req = fetch("/authorization/sign-up", {
+        const req = await fetch("/authorization/sign-up", {
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({username, password})
-        }, {immediate: false}).post().json<User>()
-        await req.execute(true)
+        }).post().json<User>()
+        if (req.error.value) throw req.error.value
         return req;
     }
 
     async function _signOut() {
-        const req = fetch("/authorization/sign-out", {
+        const req = await fetch("/authorization/sign-out", {
             headers: {
                 "Content-Type": "application/json"
             }
-        }, {immediate: false}).post();
-        await req.execute(true)
+        }).post();
+        if (req.error.value) throw req.error.value
         return req;
     }
 
     async function changePassword(password: string) {
-        const req = fetch("/authorization/change-password", {
+        const req = await fetch("/authorization/change-password", {
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({password})
-        }, {immediate: false}).post().json()
-        await req.execute(true)
+        }).post().json()
+        if (req.error.value) throw req.error.value
         return req;
     }
 

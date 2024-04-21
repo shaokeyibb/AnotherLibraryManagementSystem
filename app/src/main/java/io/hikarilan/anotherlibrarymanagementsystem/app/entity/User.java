@@ -32,7 +32,7 @@ public class User {
     @Setter
     private Role role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<BorrowRecord> borrowRecords;
 
 }

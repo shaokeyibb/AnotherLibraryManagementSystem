@@ -5,14 +5,15 @@ export default function useUser() {
     const fetch = useFetch()
 
     async function _getCurrentUser() {
-        const req = fetch("/user", {}, {immediate: false}).get().json<User>()
+        const req = await fetch("/user", {}).get().json<User>()
+        if (req.error.value) throw req.error.value
         await req.execute(true)
         return req;
     }
 
     async function getUser(userId: number) {
-        const req = fetch(`/user/${userId}`, {}, {immediate: false}).get().json<User>()
-        await req.execute(true)
+        const req = await fetch(`/user/${userId}`, {}).get().json<User>()
+        if (req.error.value) throw req.error.value
         return req;
     }
 

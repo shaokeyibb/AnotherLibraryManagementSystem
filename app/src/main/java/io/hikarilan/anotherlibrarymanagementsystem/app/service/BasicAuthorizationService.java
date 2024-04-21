@@ -42,8 +42,7 @@ public class BasicAuthorizationService {
         StpUtil.logout();
     }
 
-    public void changePassword(@Nonnull String password) {
-        var userId = StpUtil.getLoginIdAsLong();
+    public void changePassword(long userId, @Nonnull String password) {
         var user = userService.getUser(userId);
 
         if (user.isEmpty()) {

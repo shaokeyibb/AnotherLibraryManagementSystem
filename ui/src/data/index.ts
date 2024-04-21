@@ -4,13 +4,23 @@ export type Book = {
     title: string,
     author: string,
     publisher: string,
-    number_of_copies: number
+    number_of_copies: number,
+    borrow_records: BorrowRecord[]
 }
 
 export type User = {
     id: number,
     username: string,
-    role: Role
+    role: Role,
+    borrow_records: BorrowRecord[]
+}
+
+export type BorrowRecord = {
+    id: number,
+    user_id: number,
+    book_id: number,
+    borrow_date: string,
+    return_date: string
 }
 
 export enum Role {
@@ -20,6 +30,6 @@ export enum Role {
 }
 
 export type Error = {
-    type: string,
+    code: number,
     message: string
 }
