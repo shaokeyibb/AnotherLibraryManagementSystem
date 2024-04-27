@@ -8,6 +8,7 @@ import {
 import routed_breadcrumb from '../../components/RoutedBreadcrumb.vue';
 import {useUsersStore} from "../../stores/users.ts";
 import {RouteLocationNormalized, useRouter} from "vue-router";
+import {Role} from "../../data";
 
 const route = useRoute()
 const router = useRouter()
@@ -39,6 +40,10 @@ async function defaultToRead(route: RouteLocationNormalized) {
 }
 
 defaultToRead(route)
+
+if (user.data?.role == Role.ADMIN) {
+  router.push({name: "System"})
+}
 </script>
 
 <template>

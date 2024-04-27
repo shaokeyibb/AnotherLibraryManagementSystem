@@ -36,6 +36,16 @@ export enum Role {
     GUEST = "GUEST"
 }
 
+export type Configuration = {
+    key: string,
+    value: string
+}
+
+export const configurationDescription = {
+    "max_book_borrow_days": "最大借阅天数",
+    "overdue_fine_per_day": "每日逾期罚款",
+} as const
+
 export type Error = {
     code: number,
     message: string

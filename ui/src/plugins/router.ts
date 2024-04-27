@@ -30,7 +30,8 @@ const routes: Readonly<RouteRecordRaw[]> = [
                 path: "read",
                 component: () => import("../views/dashboard/read.vue"),
                 meta: {
-                    displayName: "书籍检索"
+                    displayName: "书籍检索",
+                    role: "USER"
                 }
             },
             {
@@ -38,7 +39,8 @@ const routes: Readonly<RouteRecordRaw[]> = [
                 path: "borrow-management",
                 component: () => import("../views/dashboard/borrow.vue"),
                 meta: {
-                    displayName: "我的借阅"
+                    displayName: "我的借阅",
+                    role: "USER"
                 }
             },
             {
@@ -46,7 +48,8 @@ const routes: Readonly<RouteRecordRaw[]> = [
                 path: "account-management",
                 component: () => import("../views/dashboard/account.vue"),
                 meta: {
-                    displayName: "账号管理"
+                    displayName: "账号管理",
+                    role: "USER"
                 }
             },
             {

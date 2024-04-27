@@ -4,6 +4,8 @@ import {Message, TableData} from "@arco-design/web-vue";
 import useBook from "../../hooks/book.ts";
 import {useUsersStore} from "../../stores/users.ts";
 
+const router = useRouter()
+
 const user = useUsersStore()
 
 type BookTableData = TableData & Book
@@ -28,10 +30,8 @@ async function borrowBook(record: BookTableData) {
   await updateTableData()
 }
 
-async function returnBook(record: BookTableData) {
-  await book.returnBook(record.key as unknown as number)
-  Message.success("归还成功")
-  await updateTableData()
+async function returnBook() {
+  await router.push({name: "Borrow"})
 }
 
 updateTableData()
@@ -47,16 +47,16 @@ updateTableData()
       <a-table-column title="可借馆藏数" data-index="number_of_available_copies"/>
       <a-table-column title="操作">
         <template #cell="{ record }">
-         <a-space>
-           <a-button type="primary"
-                     :disabled="!record.number_of_copies || record.borrow_records.some((it:BorrowRecord) => it.user_id == user.data?.id && !it.return_date)"
-                     @click="borrowBook(record)">借阅
-           </a-button>
-           <a-button type="primary"
-                     :disabled="!record.borrow_records.some((it:BorrowRecord) => it.user_id == user.data?.id)"
-                     @click="returnBook(record)">归还
-           </a-button>
-         </a-space>
+          <a-space>
+            <a-button type="primary"
+                      :disabled="!record.number_of_copies || record.borrow_records.some((it:BorrowRecord) => it.user_id == user.data?.id && !it.return_date)"
+                      @click="borrowBook(record)">借阅
+            </a-button>
+            <a-button type="primary"
+                      :disabled="!record.borrow_records.some((it:BorrowRecord) => it.user_id == user.data?.id && !it.return_date)"
+                      @click="returnBook()">前往归还
+            </a-button>
+          </a-space>
         </template>
       </a-table-column>
     </template>
