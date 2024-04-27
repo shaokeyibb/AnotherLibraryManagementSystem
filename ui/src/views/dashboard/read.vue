@@ -44,7 +44,7 @@ updateTableData()
       <a-table-column title="作者" data-index="author"/>
       <a-table-column title="出版社" data-index="publisher"/>
       <a-table-column title="ISBN 号" data-index="isbn_number"/>
-      <a-table-column title="馆藏数" data-index="number_of_copies"/>
+      <a-table-column title="可借馆藏数" data-index="number_of_available_copies"/>
       <a-table-column title="操作">
         <template #cell="{ record }">
          <a-space>

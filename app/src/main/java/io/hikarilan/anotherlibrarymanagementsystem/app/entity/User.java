@@ -3,6 +3,7 @@ package io.hikarilan.anotherlibrarymanagementsystem.app.entity;
 import io.hikarilan.anotherlibrarymanagementsystem.app.data.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SoftDelete;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Table(name = "users", indexes = {
         @Index(name = "idx_user_username", columnList = "username")
 })
+@SoftDelete
 public class User {
 
     @Id
@@ -33,7 +35,7 @@ public class User {
     @Setter
     private Role role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BorrowRecord> borrowRecords;
 
 }

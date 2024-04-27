@@ -48,7 +48,6 @@ public class BorrowService {
                 .build();
         borrowRecordRepository.save(borrowRecord);
 
-        book.setNumberOfCopies(book.getNumberOfCopies() - 1);
         bookRepository.save(book);
     }
 
@@ -75,7 +74,6 @@ public class BorrowService {
 
         borrowRecordRepository.save(borrowRecord);
 
-        book.setNumberOfCopies(book.getNumberOfCopies() + 1);
         bookRepository.save(book);
     }
 

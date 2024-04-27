@@ -2,6 +2,7 @@ package io.hikarilan.anotherlibrarymanagementsystem.app.service;
 
 import io.hikarilan.anotherlibrarymanagementsystem.app.data.Role;
 import io.hikarilan.anotherlibrarymanagementsystem.app.entity.User;
+import io.hikarilan.anotherlibrarymanagementsystem.app.exception.UserNotExistsException;
 import io.hikarilan.anotherlibrarymanagementsystem.app.repository.UserRepository;
 import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,16 @@ public class UserService {
 
     public void updateUser(@Nonnull User user) {
         userRepository.save(user);
+    }
+
+    public void deleteUser(long id) {
+        var user = getUser(id);
+
+        if (user.isEmpty()) {
+            throw new UserNotExistsException();
+        }
+
+        userRepository.deleteById(id);
     }
 
 }

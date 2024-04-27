@@ -1,4 +1,4 @@
-import {User} from "../data";
+import {User, UserReq} from "../data";
 import {useFetch} from "./fetch.ts";
 
 export default function useUser() {
@@ -23,9 +23,40 @@ export default function useUser() {
         return req;
     }
 
+    async function addUser(user: Omit<UserReq, 'id'>) {
+        const req = await fetch(`/user`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        }).post()
+        if (req.error.value) throw req.error.value
+        return req;
+    }
+
+    async function updateUser(userId: number, user: UserReq) {
+        const req = await fetch(`/user/${userId}`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        }).put()
+        if (req.error.value) throw req.error.value
+        return req;
+    }
+
+    async function deleteUser(bookId: number) {
+        const req = await fetch(`/user/${bookId}`, {}).delete()
+        if (req.error.value) throw req.error.value
+        return req;
+    }
+
     return {
         _getCurrentUser,
         getUser,
-        getAllUsers
+        getAllUsers,
+        addUser,
+        updateUser,
+        deleteUser
     }
 }

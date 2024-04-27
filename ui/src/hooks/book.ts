@@ -1,5 +1,5 @@
 import {useFetch} from "./fetch.ts"
-import {Book} from "../data";
+import {Book, BookReq} from "../data";
 
 export default function useBook() {
     const fetch = useFetch()
@@ -14,6 +14,34 @@ export default function useBook() {
         const page = pPage ?? 0;
         const size = pSize ?? 0x7fffffff;
         const req = await fetch(`/book?page=${page}&size=${size}`, {}).get().json<Book[]>()
+        if (req.error.value) throw req.error.value
+        return req;
+    }
+
+    async function addBook(book: Omit<BookReq, 'id'>) {
+        const req = await fetch(`/book`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(book)
+        }).post()
+        if (req.error.value) throw req.error.value
+        return req;
+    }
+
+    async function updateBook(bookId: number, book: BookReq) {
+        const req = await fetch(`/book/${bookId}`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(book)
+        }).put()
+        if (req.error.value) throw req.error.value
+        return req;
+    }
+
+    async function deleteBook(bookId: number) {
+        const req = await fetch(`/book/${bookId}`, {}).delete()
         if (req.error.value) throw req.error.value
         return req;
     }
@@ -33,6 +61,9 @@ export default function useBook() {
     return {
         getBook,
         getBooks,
+        addBook,
+        updateBook,
+        deleteBook,
         borrowBook,
         returnBook
     }

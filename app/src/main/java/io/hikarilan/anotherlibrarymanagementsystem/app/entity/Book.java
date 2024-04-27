@@ -2,6 +2,7 @@ package io.hikarilan.anotherlibrarymanagementsystem.app.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SoftDelete;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
         @Index(name = "idx_book_author", columnList = "author"),
         @Index(name = "idx_book_publisher", columnList = "publisher")
 })
+@SoftDelete
 public class Book {
 
     @Id
@@ -40,6 +42,6 @@ public class Book {
     @Column(name = "number_of_copies", nullable = false)
     private int numberOfCopies = 0;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BorrowRecord> borrowRecords;
 }

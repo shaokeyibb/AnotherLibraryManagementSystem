@@ -11,6 +11,7 @@ public record BookVo(
         String author,
         String publisher,
         int numberOfCopies,
+        int numberOfAvailableCopies,
         List<BorrowRecordVo> borrowRecords) {
 
     public static BookVo fromEntity(Book book) {
@@ -21,6 +22,8 @@ public record BookVo(
                 book.getAuthor(),
                 book.getPublisher(),
                 book.getNumberOfCopies(),
+                book.getNumberOfCopies()
+                        - (int) book.getBorrowRecords().stream().filter(it -> it.getReturnDate() == null).count(),
                 book.getBorrowRecords().stream().map(BorrowRecordVo::fromEntity).toList()
         );
     }
