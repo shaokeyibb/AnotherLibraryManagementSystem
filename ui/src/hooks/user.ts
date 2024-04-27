@@ -11,14 +11,21 @@ export default function useUser() {
         return req;
     }
 
-    async function getUser(userId: number) {
-        const req = await fetch(`/user/${userId}`, {}).get().json<User>()
+    async function getUser(username: string) {
+        const req = await fetch(`/user/${username}`, {}).get().json<User>()
+        if (req.error.value) throw req.error.value
+        return req;
+    }
+
+    async function getAllUsers() {
+        const req = await fetch("/user/all", {}).get().json<User[]>()
         if (req.error.value) throw req.error.value
         return req;
     }
 
     return {
         _getCurrentUser,
-        getUser
+        getUser,
+        getAllUsers
     }
 }

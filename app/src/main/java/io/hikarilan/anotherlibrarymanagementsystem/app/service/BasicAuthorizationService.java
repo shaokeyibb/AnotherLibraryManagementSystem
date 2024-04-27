@@ -49,7 +49,21 @@ public class BasicAuthorizationService {
             throw new UserNotExistsException();
         }
 
-        userService.updateUser(user.get().toBuilder()
+        changePassword(user.get(), password);
+    }
+
+    public void changePassword(String username, @Nonnull String password) {
+        var user = userService.getUser(username);
+
+        if (user.isEmpty()) {
+            throw new UserNotExistsException();
+        }
+
+        changePassword(user.get(), password);
+    }
+
+    private void changePassword(@Nonnull User user, @Nonnull String password) {
+        userService.updateUser(user.toBuilder()
                 .password(BCrypt.hashpw(password))
                 .build());
     }

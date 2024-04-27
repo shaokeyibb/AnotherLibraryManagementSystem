@@ -1,4 +1,6 @@
 package io.hikarilan.anotherlibrarymanagementsystem.app.data.dto;
 
-public record ChangePasswordRequest(String password) {
+import jakarta.annotation.Nonnull;
+
+public record ChangePasswordRequest(@Nonnull String password) {
 }

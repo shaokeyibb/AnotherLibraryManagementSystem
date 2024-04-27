@@ -20,7 +20,7 @@ export type BorrowRecord = {
     user_id: number,
     book_id: number,
     borrow_date: string,
-    return_date: string
+    return_date?: string
 }
 
 export enum Role {

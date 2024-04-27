@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.Date;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

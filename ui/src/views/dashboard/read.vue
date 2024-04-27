@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Book, BorrowRecord, Error} from "../../data";
+import {Book, BorrowRecord} from "../../data";
 import {Message, TableData} from "@arco-design/web-vue";
 import useBook from "../../hooks/book.ts";
 import {useUsersStore} from "../../stores/users.ts";
@@ -14,23 +14,22 @@ const data = ref<BookTableData[]>()
 
 async function updateTableData() {
   const books = await book.getBooks({})
-  // @ts-ignore
   data.value = books.data.value?.map(book => {
     return {
       ...book,
-      key: book.id
+      key: book.id.toString()
     }
   }) ?? []
 }
 
 async function borrowBook(record: BookTableData) {
-  await book.borrowBook(record.key!)
+  await book.borrowBook(record.key as unknown as number)
   Message.success("借阅成功，别忘记按时归还噢")
   await updateTableData()
 }
 
 async function returnBook(record: BookTableData) {
-  await book.returnBook(record.key!)
+  await book.returnBook(record.key as unknown as number)
   Message.success("归还成功")
   await updateTableData()
 }
@@ -50,7 +49,7 @@ updateTableData()
         <template #cell="{ record }">
          <a-space>
            <a-button type="primary"
-                     :disabled="!record.number_of_copies || record.borrow_records.some((it:BorrowRecord) => it.user_id == user.data?.id)"
+                     :disabled="!record.number_of_copies || record.borrow_records.some((it:BorrowRecord) => it.user_id == user.data?.id && !it.return_date)"
                      @click="borrowBook(record)">借阅
            </a-button>
            <a-button type="primary"

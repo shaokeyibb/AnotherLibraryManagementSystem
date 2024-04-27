@@ -77,11 +77,9 @@ user.updateUser().then(() => {
         </a-form-item>
         <a-form-item>
           <a-space>
-            <a-button type="primary" html-type="submit" data-submit-type="SIGN_IN">{{
-                FormType.SIGN_IN.name
-              }}
-            </a-button>
+            <a-button type="primary" html-type="submit" data-submit-type="SIGN_IN">{{ FormType.SIGN_IN.name }}</a-button>
             <a-button html-type="submit" data-submit-type="SIGN_UP">{{ FormType.SIGN_UP.name }}</a-button>
+            <a-button type="text" @click="$router.push({name: 'Forget Password'})">忘记密码</a-button>
           </a-space>
         </a-form-item>
       </a-form>

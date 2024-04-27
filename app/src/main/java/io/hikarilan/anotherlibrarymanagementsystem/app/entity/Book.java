@@ -22,7 +22,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private long id;
+    private Long id;
 
     @Column(name = "isbn_number", nullable = false)
     private long isbnNumber;

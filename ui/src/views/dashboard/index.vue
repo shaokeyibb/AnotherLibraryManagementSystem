@@ -5,7 +5,7 @@ import {
   IconUser,
   IconApps
 } from '@arco-design/web-vue/es/icon';
-import routed_breadcrumb from '../../components/routed_breadcrumb.vue';
+import routed_breadcrumb from '../../components/RoutedBreadcrumb.vue';
 import {useUsersStore} from "../../stores/users.ts";
 import {RouteLocationNormalized, useRouter} from "vue-router";
 
@@ -80,7 +80,7 @@ defaultToRead(route)
       <a-layout-content>
         <div class="flex flex-col w-full h-full p-3 lg:px-10 lg:pb-10" style="background: var(--color-fill-2)">
           <routed_breadcrumb/>
-          <main class="p-3 flex-1" style="background: var(--color-bg-1)">
+          <main class="p-5 flex-1" style="background: var(--color-bg-1)">
             <router-view/>
           </main>
         </div>

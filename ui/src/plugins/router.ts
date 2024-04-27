@@ -16,6 +16,11 @@ const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import("../views/welcome.vue"),
     },
     {
+        name: "Forget Password",
+        path: "/forget-password",
+        component: () => import("../views/forget_password.vue"),
+    },
+    {
         name: "Dashboard",
         path: "/dashboard",
         component: () => import("../views/dashboard/index.vue"),
@@ -47,7 +52,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
             {
                 name: "System",
                 path: "system-management",
-                component: () => import("../views/dashboard/system.vue"),
+                component: () => import("../views/dashboard/system/index.vue"),
                 meta: {
                     displayName: "系统管理",
                     role: "ADMIN"

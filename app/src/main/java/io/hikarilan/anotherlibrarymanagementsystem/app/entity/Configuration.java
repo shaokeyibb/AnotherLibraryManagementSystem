@@ -22,4 +22,6 @@ public class Configuration {
     @Column(name = "velue", nullable = false) // 故意的，value 在 h2db 是关键字不能用
     private String value;
 
+    @Column(name = "description")
+    private String description;
 }

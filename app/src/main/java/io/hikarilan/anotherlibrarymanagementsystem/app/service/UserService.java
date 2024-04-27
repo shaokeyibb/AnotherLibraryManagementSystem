@@ -7,6 +7,7 @@ import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -21,6 +22,10 @@ public class UserService {
 
     public Optional<User> getUser(long id) {
         return userRepository.findById(id);
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 
     public User createUser(@Nonnull String username, @Nonnull String hashedPassword) {

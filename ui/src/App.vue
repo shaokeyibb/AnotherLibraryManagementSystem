@@ -6,7 +6,7 @@ const user = useUsersStore()
 
 // 如果用户未登录，跳转回登录页
 router.beforeEach(async (to) => {
-  if (to.name == "Welcome") return true
+  if (!to.path.startsWith("/dashboard")) return true
   try {
     await user.updateUser()
   } catch (_ignored: unknown) {
@@ -16,7 +16,7 @@ router.beforeEach(async (to) => {
 
 // 如果用户角色不正确，跳转回控制台页
 router.beforeEach(async (to) => {
-  if (to.name == "Dashboard") return true
+  if (to.path.startsWith("/dashboard")) return true
   if (to.meta.role != null && to.meta.role != user.data?.role as string | undefined) {
     return {name: "Dashboard"}
   }

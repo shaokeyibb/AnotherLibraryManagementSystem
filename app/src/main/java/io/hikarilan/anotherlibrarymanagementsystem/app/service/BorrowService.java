@@ -37,7 +37,7 @@ public class BorrowService {
             throw new BookNoCopiesAvailableException();
         }
 
-        if (bookRepository.existsByBorrowRecordsUserIdAndBorrowRecordsBookId(userId, bookId)) {
+        if (borrowRecordRepository.existsByUserIdAndBookIdAndReturnDateIsNull(userId, bookId)) {
             throw new BookAlreadyBorrowedException();
         }
 
@@ -65,13 +65,15 @@ public class BorrowService {
             throw new UserNotExistsException();
         }
 
-        var _borrowRecord = borrowRecordRepository.findByUserIdAndBookId(userId, bookId);
+        var _borrowRecord = borrowRecordRepository.findByUserIdAndBookIdAndReturnDateIsNull(userId, bookId);
         if (_borrowRecord.isEmpty()) {
             throw new BookNoNeedToReturnException();
         }
-        var borrowRecord = _borrowRecord.get();
+        var borrowRecord = _borrowRecord.get().toBuilder()
+                .returnDate(new Date())
+                .build();
 
-        borrowRecordRepository.delete(borrowRecord);
+        borrowRecordRepository.save(borrowRecord);
 
         book.setNumberOfCopies(book.getNumberOfCopies() + 1);
         bookRepository.save(book);

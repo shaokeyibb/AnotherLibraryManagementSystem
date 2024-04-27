@@ -17,8 +17,9 @@ import java.util.List;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private long id;
+    private Long id;
 
     @Column(name = "username", nullable = false)
     @Setter
