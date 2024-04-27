@@ -33,3 +33,17 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.register("copyUiArtifacts") {
+    dependsOn(":ui:build")
+    doLast {
+        copy {
+            from("../ui/dist")
+            into("src/main/resources/static")
+        }
+    }
+}
+
+tasks.named("build") {
+    dependsOn(tasks.named("copyUiArtifacts"))
+}

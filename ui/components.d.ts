@@ -7,8 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Routed_breadcrumb: typeof import('./src/components/routed_breadcrumb.vue')['default']
-    Routed_breadcrumb_item: typeof import('./src/components/routed_breadcrumb_item.vue')['default']
     RoutedBreadcrumb: typeof import('./src/components/RoutedBreadcrumb.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

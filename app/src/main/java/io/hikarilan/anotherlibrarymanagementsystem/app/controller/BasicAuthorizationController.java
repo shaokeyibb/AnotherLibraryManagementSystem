@@ -19,7 +19,7 @@ import java.util.Random;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/authorization")
+@RequestMapping("/api/authorization")
 public class BasicAuthorizationController {
 
     private final BasicAuthorizationService basicAuthorizationService;

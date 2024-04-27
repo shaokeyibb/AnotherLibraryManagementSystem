@@ -10,7 +10,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/configuration")
+@RequestMapping("/api/configuration")
 public class ConfigurationController {
 
     private final ConfigurationService configurationService;

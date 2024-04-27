@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/book/{bookId}")
+@RequestMapping("/api/book/{bookId}")
 public class BorrowController {
 
     private final BorrowService borrowService;
